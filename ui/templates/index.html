@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KaliGPT - AI-Powered Penetration Testing Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="KaliGPT Logo" class="logo">
+                    <div class="title-section">
+                        <h1>🔒 KaliGPT</h1>
+                        <p>AI-Powered Penetration Testing Assistant</p>
+                    </div>
+                </div>
+                <div class="status-section">
+                    <div class="ai-status" id="aiStatus">
+                        <span class="status-indicator offline"></span>
+                        <span class="status-text">Disconnected</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3>⚙️ AI Configuration</h3>
+                    <div class="form-group">
+                        <label>AI Model</label>
+                        <select id="modelSelect">
+                            <option value="gpt-5.1">GPT-5.1</option>
+                            <option value="gpt-5">GPT-5</option>
+                            <option value="gemini-3">Gemini 3 Pro</option>
+                            <option value="gemini-2">Gemini 2.0 Pro</option>
+                            <option value="claude-sonnet-4.5">Claude Sonnet 4.5</option>
+                            <option value="claude-opus-4">Claude Opus 4</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="connectBtn" onclick="connectAI()">
+                        🔌 Connect to AI
+                    </button>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>⚡ Quick Actions</h3>
+                    <button class="btn btn-secondary" onclick="switchTab('terminal')">
+                        🔍 Analyze Output
+                    </button>
+                    <button class="btn btn-secondary" onclick="switchTab('payloads')">
+                        💉 Generate Payload
+                    </button>
+                    <button class="btn btn-secondary" onclick="switchTab('report')">
+                        📊 Generate Report
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearSession()">
+                        🗑️ Clear Session
+                    </button>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>📊 Session Stats</h3>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Commands:</span>
+                            <span class="stat-value" id="commandCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Payloads:</span>
+                            <span class="stat-value" id="payloadCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Findings:</span>
+                            <span class="stat-value" id="findingCount">0</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Panel -->
+            <main class="main-panel">
+                <!-- Tab Navigation -->
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-tab="terminal" onclick="switchTab('terminal')">
+                        Terminal
+                    </button>
+                    <button class="tab-btn" data-tab="payloads" onclick="switchTab('payloads')">
+                        Payloads
+                    </button>
+                    <button class="tab-btn" data-tab="history" onclick="switchTab('history')">
+                        History
+                    </button>
+                    <button class="tab-btn" data-tab="report" onclick="switchTab('report')">
+                        Report
+                    </button>
+                </div>
+
+                <!-- Terminal Tab -->
+                <div class="tab-content active" id="terminal">
+                    <div class="section">
+                        <h3>Command Output / Analysis Input</h3>
+                        <textarea id="commandInput" class="terminal-input" placeholder="Paste command output here for AI analysis..."></textarea>
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="analyzeCommand()">
+                                🤖 Analyze with AI
+                            </button>
+                            <button class="btn btn-secondary" onclick="clearInput()">
+                                🗑️ Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>AI Analysis & Recommendations</h3>
+                        <div id="aiOutput" class="output-area"></div>
+                    </div>
+                </div>
+
+                <!-- Payloads Tab -->
+                <div class="tab-content" id="payloads">
+                    <div class="payload-grid">
+                        <div class="payload-config">
+                            <h3>Payload Configuration</h3>
+                            
+                            <div class="form-group">
+                                <label>Payload Type</label>
+                                <select id="payloadType" onchange="updateTemplates()">
+                                    <option value="sqli">SQL Injection</option>
+                                    <option value="xss">Cross-Site Scripting</option>
+                                    <option value="reverse_shells">Reverse Shells</option>
+                                    <option value="webshells">Web Shells</option>
+                                    <option value="privesc">Privilege Escalation</option>
+                                    <option value="wordlists">Wordlists</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Template</label>
+                                <select id="templateSelect">
+                                    <option value="">Select template...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Variables (JSON)</label>
+                                <textarea id="payloadVars" class="code-input" rows="8">
+{
+  "ATTACKER_IP": "10.10.14.5",
+  "ATTACKER_PORT": "4444"
+}</textarea>
+                            </div>
+
+                            <button class="btn btn-primary" onclick="generatePayload()">
+                                🚀 Generate Payload
+                            </button>
+
+                            <div class="separator">OR</div>
+
+                            <h4>AI-Powered Generation</h4>
+                            <div class="form-group">
+                                <label>Target Information (JSON)</label>
+                                <textarea id="targetInfo" class="code-input" rows="10">
+{
+  "target_type": "web_application",
+  "technology": "PHP/MySQL",
+  "vulnerability": "SQL Injection",
+  "context": "Login form with username field",
+  "waf": "ModSecurity",
+  "objective": "Extract admin credentials"
+}</textarea>
+                            </div>
+
+                            <button class="btn btn-accent" onclick="generateAIPayload()">
+                                ✨ Generate with AI
+                            </button>
+                        </div>
+
+                        <div class="payload-output">
+                            <h3>Generated Payload</h3>
+                            <div id="payloadOutput" class="code-output"></div>
+                            <button class="btn btn-secondary" onclick="copyPayload()">
+                                📋 Copy to Clipboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Tab -->
+                <div class="tab-content" id="history">
+                    <h3>Session History</h3>
+                    <div id="historyList" class="history-list"></div>
+                </div>
+
+                <!-- Report Tab -->
+                <div class="tab-content" id="report">
+                    <div class="report-config">
+                        <h3>Report Configuration</h3>
+                        <div class="form-group">
+                            <label>Report Format</label>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="reportFormat" value="markdown" checked>
+                                    Markdown
+                                </label>
+                                <label>
+                                    <input type="radio" name="reportFormat" value="html">
+                                    HTML
+                                </label>
+                                <label>
+                                    <input type="radio" name="reportFormat" value="json">
+                                    JSON
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Target Name</label>
+                            <input type="text" id="targetName" value="Target System" class="text-input">
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="previewReport()">
+                                🔄 Generate Preview
+                            </button>
+                            <button class="btn btn-accent" onclick="exportReport()">
+                                💾 Export Report
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="report-preview">
+                        <h3>Report Preview</h3>
+                        <div id="reportPreview" class="code-output"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Status Bar -->
+        <footer class="status-bar">
+            <div class="status-bar-content">
+                <span id="statusMessage">Ready</span>
+                <span class="version">KaliGPT v1.1.0</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p id="loadingMessage">Processing...</p>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

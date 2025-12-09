@@ -1,0 +1,86 @@
+{
+  "general": {
+    "auto_execute": false,
+    "safe_mode": true,
+    "log_directory": "logs",
+    "report_directory": "reports"
+  },
+  
+  "ai": {
+    "default_model": "llama",
+    "temperature": 0.7,
+    "max_tokens": 2000,
+    "stream_responses": false
+  },
+  
+  "models": {
+    "gpt": {
+      "enabled": false,
+      "model": "gpt-4",
+      "api_key_env": "OPENAI_API_KEY"
+    },
+    "llama": {
+      "enabled": true,
+      "model": "llama2",
+      "base_url": "http://localhost:11434"
+    },
+    "mistral": {
+      "enabled": true,
+      "use_ollama": true,
+      "model": "mistral"
+    },
+    "qwen": {
+      "enabled": true,
+      "model": "qwen",
+      "base_url": "http://localhost:11434"
+    }
+  },
+  
+  "tools": {
+    "nmap": {
+      "enabled": true,
+      "default_flags": "-sV -sC"
+    },
+    "metasploit": {
+      "enabled": true,
+      "msfconsole_path": "/usr/bin/msfconsole"
+    },
+    "sqlmap": {
+      "enabled": true,
+      "default_flags": "--batch"
+    },
+    "nikto": {
+      "enabled": true
+    },
+    "gobuster": {
+      "enabled": true,
+      "wordlist": "/usr/share/wordlists/dirb/common.txt"
+    },
+    "hydra": {
+      "enabled": true
+    }
+  },
+  
+  "workflow": {
+    "auto_progress_phase": true,
+    "suggested_commands_limit": 5
+  },
+  
+  "reporting": {
+    "default_format": "markdown",
+    "include_commands": true,
+    "include_output": true,
+    "auto_generate": false
+  },
+  
+  "security": {
+    "block_dangerous_commands": true,
+    "confirm_before_execute": true,
+    "dangerous_patterns": [
+      "rm -rf /",
+      "dd if=/dev/zero",
+      "mkfs",
+      ":(){:|:&};:"
+    ]
+  }
+}

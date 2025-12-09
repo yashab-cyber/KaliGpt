@@ -1,0 +1,116 @@
+{
+  "model_type": "llama",
+  "model": "llama2",
+  "base_url": "http://localhost:11434",
+  "temperature": 0.7,
+  "max_tokens": 2000,
+  
+  "system_prompt": "You are KaliGPT, an expert AI penetration testing assistant. Your role is to analyze output from pentesting tools (nmap, metasploit, sqlmap, nikto, gobuster, hydra, etc.), recommend the next logical step in the penetration testing process, provide specific commands to execute, explain vulnerabilities and attack vectors, and generate custom payloads when needed. Follow the pentesting methodology: Reconnaissance → Enumeration → Exploitation → Post-Exploitation → Reporting. Always provide actionable, specific commands. Explain WHY each step is recommended. Consider safety and legality (only on authorized targets). Prioritize high-impact vulnerabilities. Think like a professional penetration tester. Be concise but thorough.",
+  
+  "profiles": {
+    "gpt4": {
+      "model_type": "gpt",
+      "model": "gpt-4",
+      "api_key_env": "OPENAI_API_KEY",
+      "temperature": 0.7,
+      "max_tokens": 2000
+    },
+    
+    "gpt35": {
+      "model_type": "gpt",
+      "model": "gpt-3.5-turbo",
+      "api_key_env": "OPENAI_API_KEY",
+      "temperature": 0.7,
+      "max_tokens": 2000
+    },
+    
+    "llama2": {
+      "model_type": "llama",
+      "model": "llama2",
+      "base_url": "http://localhost:11434",
+      "temperature": 0.7,
+      "max_tokens": 2000
+    },
+    
+    "llama3": {
+      "model_type": "llama",
+      "model": "llama3",
+      "base_url": "http://localhost:11434",
+      "temperature": 0.7,
+      "max_tokens": 2000
+    },
+    
+    "mistral": {
+      "model_type": "mistral",
+      "model": "mistral",
+      "use_ollama": true,
+      "base_url": "http://localhost:11434",
+      "temperature": 0.7,
+      "max_tokens": 2000
+    },
+    
+    "qwen": {
+      "model_type": "qwen",
+      "model": "qwen",
+      "base_url": "http://localhost:11434",
+      "temperature": 0.7,
+      "max_tokens": 2000
+    },
+    
+    "gpt5.1": {
+      "model_type": "gpt",
+      "model": "gpt-5.1",
+      "api_key_env": "OPENAI_API_KEY",
+      "temperature": 0.7,
+      "max_tokens": 4000
+    },
+    
+    "gpt5": {
+      "model_type": "gpt",
+      "model": "gpt-5",
+      "api_key_env": "OPENAI_API_KEY",
+      "temperature": 0.7,
+      "max_tokens": 4000
+    },
+    
+    "gemini3": {
+      "model_type": "gemini",
+      "model": "gemini-3-pro",
+      "api_key_env": "GOOGLE_API_KEY",
+      "temperature": 0.7,
+      "max_tokens": 4000
+    },
+    
+    "gemini2": {
+      "model_type": "gemini",
+      "model": "gemini-2-pro",
+      "api_key_env": "GOOGLE_API_KEY",
+      "temperature": 0.7,
+      "max_tokens": 4000
+    },
+    
+    "claude-sonnet-4.5": {
+      "model_type": "claude",
+      "model": "claude-sonnet-4.5",
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "temperature": 0.7,
+      "max_tokens": 4000
+    },
+    
+    "claude-opus-4": {
+      "model_type": "claude",
+      "model": "claude-opus-4",
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "temperature": 0.7,
+      "max_tokens": 4000
+    },
+    
+    "claude-sonnet-3.5": {
+      "model_type": "claude",
+      "model": "claude-sonnet-3.5",
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "temperature": 0.7,
+      "max_tokens": 4000
+    }
+  }
+}

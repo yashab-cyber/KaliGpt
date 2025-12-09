@@ -1,0 +1,155 @@
+{
+  "common_passwords": {
+    "name": "Common Password Generator",
+    "description": "Generate common password variations",
+    "base_words": ["admin", "password", "123456", "qwerty", "letmein", "welcome", "monkey", "dragon"],
+    "patterns": [
+      "{{WORD}}",
+      "{{WORD}}123",
+      "{{WORD}}2024",
+      "{{WORD}}2025",
+      "{{WORD}}!",
+      "{{WORD}}@",
+      "{{WORD}}#",
+      "{{WORD}}$",
+      "{{WORD}}1!",
+      "Admin{{WORD}}",
+      "{{WORD}}Admin"
+    ]
+  },
+  
+  "username_generator": {
+    "name": "Username Wordlist Generator",
+    "description": "Generate username variations",
+    "patterns": [
+      "{{FIRSTNAME}}.{{LASTNAME}}",
+      "{{FIRSTNAME}}{{LASTNAME}}",
+      "{{FIRSTNAME}}_{{LASTNAME}}",
+      "{{FIRSTNAME}}-{{LASTNAME}}",
+      "{{FIRSTNAME}}",
+      "{{LASTNAME}}",
+      "{{FIRSTNAME}}{{LAST_INITIAL}}",
+      "{{FIRST_INITIAL}}{{LASTNAME}}",
+      "{{FIRST_INITIAL}}.{{LASTNAME}}",
+      "{{FIRST_INITIAL}}{{LAST_INITIAL}}"
+    ],
+    "example": {
+      "input": {"firstname": "john", "lastname": "smith"},
+      "output": ["john.smith", "johnsmith", "john_smith", "jsmith", "j.smith"]
+    }
+  },
+  
+  "company_passwords": {
+    "name": "Company-Based Password Generator",
+    "description": "Generate passwords based on company name",
+    "patterns": [
+      "{{COMPANY}}{{YEAR}}",
+      "{{COMPANY}}{{YEAR}}!",
+      "{{COMPANY}}@{{YEAR}}",
+      "{{COMPANY}}123",
+      "{{COMPANY}}!23",
+      "Welcome{{COMPANY}}",
+      "{{COMPANY}}Welcome",
+      "Password{{COMPANY}}"
+    ],
+    "variables": ["COMPANY", "YEAR"]
+  },
+  
+  "season_dates": {
+    "name": "Seasonal Password Generator",
+    "description": "Generate passwords with seasons and dates",
+    "patterns": [
+      "Winter{{YEAR}}",
+      "Spring{{YEAR}}",
+      "Summer{{YEAR}}",
+      "Fall{{YEAR}}",
+      "Autumn{{YEAR}}",
+      "January{{YEAR}}",
+      "February{{YEAR}}",
+      "March{{YEAR}}",
+      "April{{YEAR}}",
+      "May{{YEAR}}",
+      "June{{YEAR}}",
+      "July{{YEAR}}",
+      "August{{YEAR}}",
+      "September{{YEAR}}",
+      "October{{YEAR}}",
+      "November{{YEAR}}",
+      "December{{YEAR}}"
+    ]
+  },
+  
+  "mutation_rules": {
+    "name": "Password Mutation Rules",
+    "description": "Common character substitutions",
+    "substitutions": {
+      "a": ["@", "4"],
+      "e": ["3"],
+      "i": ["1", "!"],
+      "o": ["0"],
+      "s": ["$", "5"],
+      "t": ["7"],
+      "l": ["1"],
+      "g": ["9"]
+    },
+    "examples": [
+      "password -> p@ssw0rd",
+      "password -> p4ssw0rd",
+      "admin -> adm1n",
+      "admin -> @dm!n"
+    ]
+  },
+  
+  "keyboard_walk": {
+    "name": "Keyboard Walk Patterns",
+    "description": "Common keyboard patterns",
+    "patterns": [
+      "qwerty",
+      "asdfgh",
+      "zxcvbn",
+      "qwertyuiop",
+      "asdfghjkl",
+      "zxcvbnm",
+      "1qaz2wsx",
+      "!QAZ@WSX",
+      "qazwsxedc"
+    ]
+  },
+  
+  "default_credentials": {
+    "name": "Default Credentials List",
+    "description": "Common default username:password combinations",
+    "credentials": [
+      "admin:admin",
+      "admin:password",
+      "administrator:administrator",
+      "root:root",
+      "root:toor",
+      "admin:admin123",
+      "admin:123456",
+      "user:user",
+      "test:test",
+      "guest:guest",
+      "admin:",
+      "admin:1234",
+      "cisco:cisco",
+      "ubnt:ubnt",
+      "pi:raspberry"
+    ]
+  },
+  
+  "email_generator": {
+    "name": "Email Address Generator",
+    "description": "Generate email variations for user enumeration",
+    "patterns": [
+      "{{FIRSTNAME}}.{{LASTNAME}}@{{DOMAIN}}",
+      "{{FIRSTNAME}}@{{DOMAIN}}",
+      "{{LASTNAME}}@{{DOMAIN}}",
+      "{{FIRST_INITIAL}}{{LASTNAME}}@{{DOMAIN}}",
+      "{{FIRSTNAME}}{{LAST_INITIAL}}@{{DOMAIN}}",
+      "{{FIRSTNAME}}_{{LASTNAME}}@{{DOMAIN}}",
+      "{{FIRSTNAME}}-{{LASTNAME}}@{{DOMAIN}}"
+    ],
+    "variables": ["FIRSTNAME", "LASTNAME", "DOMAIN", "FIRST_INITIAL", "LAST_INITIAL"]
+  }
+}

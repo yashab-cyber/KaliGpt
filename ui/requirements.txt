@@ -1,0 +1,13 @@
+# KaliGPT GUI Requirements
+
+# Desktop GUI (Tkinter)
+pillow>=10.0.0              # Image support for logos
+
+# Web GUI (Flask)
+flask>=3.0.0                # Web framework
+flask-socketio>=5.3.0       # WebSocket support
+python-socketio>=5.10.0     # Socket.IO client
+eventlet>=0.33.0            # Async server for Flask-SocketIO
+
+# Optional GUI enhancements
+colorama>=0.4.6             # Colored terminal output
