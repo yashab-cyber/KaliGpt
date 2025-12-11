@@ -8,6 +8,8 @@
   [![Kali Linux](https://img.shields.io/badge/Kali-Linux-557C94?logo=kalilinux)](https://www.kali.org/)
   [![GUI](https://img.shields.io/badge/GUI-Available-00d9ff.svg)](ui/)
   
+  **Created by Yashab Alam**
+  
 </div>
 
 **KaliGPT** is a production-ready, AI-powered penetration testing assistant designed specifically for Kali Linux. It reads and understands terminal output in real-time, automatically recommends the next step in the pentesting process, generates custom payloads, and can execute commands with user approval.
@@ -577,6 +579,26 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Automated exploit chaining
 - [ ] Video/screenshot capture
 - [ ] Integration with bug bounty platforms
+
+## 💎 Support This Project
+
+KaliGPT is a free, open-source project that requires significant time and resources to develop and maintain. Your support helps us continue improving and adding new features!
+
+### 🏆 Donation Tiers
+- 🥉 **Bronze Tier**: $500 - $999
+- 🥇 **Gold Tier**: $1,000 - $4,999
+- 💎 **Diamond Tier**: $5,000+
+
+Each tier comes with special recognition and benefits!
+
+📧 **Contact for donations:** [yashabalam9@gmail.com](mailto:yashabalam9@gmail.com)
+
+📖 **Learn more:** See [DONATE.md](DONATE.md) for complete details on donation tiers, benefits, and how to contribute.
+
+### Other Ways to Help
+⭐ Star this repository | 🐛 Report bugs | 💻 Contribute code | 📖 Improve docs | 🗣️ Spread the word
+
+---
 
 ## 📈 Version History
 
