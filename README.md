@@ -10,6 +10,11 @@
   
   **Created by Yashab Alam**
   
+  [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?style=flat&logo=Instagram&logoColor=white)](https://www.instagram.com/yashab.alam)
+  [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/yashab-alam)
+  
+  💎 [Support This Project - Donate](DONATE.md)
+  
 </div>
 
 **KaliGPT** is a production-ready, AI-powered penetration testing assistant designed specifically for Kali Linux. It reads and understands terminal output in real-time, automatically recommends the next step in the pentesting process, generates custom payloads, and can execute commands with user approval.
