@@ -2,6 +2,10 @@
 """
 KaliGPT Payload Generator
 Generates various exploit payloads for penetration testing
+
+Created by Yashab Alam
+Instagram: https://www.instagram.com/yashab.alam
+LinkedIn: https://www.linkedin.com/in/yashab-alam
 """
 
 import base64

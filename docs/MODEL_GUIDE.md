@@ -1,5 +1,7 @@
 # AI Model Configuration Guide
 
+**Created by Yashab Alam** | [Instagram](https://www.instagram.com/yashab.alam) | [LinkedIn](https://www.linkedin.com/in/yashab-alam) | [💎 Donate](../DONATE.md)
+
 This guide provides detailed information about configuring and using different AI models with KaliGPT.
 
 ## 🚀 Latest Models (December 2025)

@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """
-KaliGPT GUI - Modern Web-based Interface
+KaliGPT GUI - Modern Desktop Interface
 AI-Powered Penetration Testing Assistant
+
+Created by Yashab Alam
+Instagram: https://www.instagram.com/yashab.alam
+LinkedIn: https://www.linkedin.com/in/yashab-alam
+Donate: yashabalam9@gmail.com
 """
 
 import tkinter as tk

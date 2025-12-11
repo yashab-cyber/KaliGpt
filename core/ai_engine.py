@@ -2,6 +2,10 @@
 """
 KaliGPT AI Engine
 Routes commands to appropriate LLM and manages AI interactions
+
+Created by Yashab Alam
+Instagram: https://www.instagram.com/yashab.alam
+LinkedIn: https://www.linkedin.com/in/yashab-alam
 """
 
 import os

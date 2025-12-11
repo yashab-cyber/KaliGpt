@@ -1,5 +1,7 @@
 # Quick Start with Latest AI Models
 
+**Created by Yashab Alam** | [Instagram](https://www.instagram.com/yashab.alam) | [LinkedIn](https://www.linkedin.com/in/yashab-alam) | [💎 Donate](../DONATE.md)
+
 This guide gets you started with KaliGPT using the latest AI models (December 2025).
 
 ## 🚀 Installation

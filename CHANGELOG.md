@@ -1,5 +1,7 @@
 # Changelog
 
+**Created by Yashab Alam** | [Instagram](https://www.instagram.com/yashab.alam) | [LinkedIn](https://www.linkedin.com/in/yashab-alam) | [💎 Donate](DONATE.md)
+
 All notable changes to KaliGPT will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),

@@ -1,5 +1,7 @@
 # KaliGPT GUI Interfaces
 
+**Created by Yashab Alam** | [Instagram](https://www.instagram.com/yashab.alam) | [LinkedIn](https://www.linkedin.com/in/yashab-alam) | [💎 Donate](../DONATE.md)
+
 KaliGPT provides multiple graphical user interfaces for different use cases.
 
 ## 🖥️ Desktop GUI (Tkinter)

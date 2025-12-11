@@ -79,6 +79,10 @@ class KaliGPT:
 ║        AI-Powered Penetration Testing Assistant          ║
 ║                   for Kali Linux                          ║
 ║                                                           ║
+║              Created by Yashab Alam                       ║
+║    Instagram: @yashab.alam | LinkedIn: yashab-alam       ║
+║         💎 Support: yashabalam9@gmail.com                ║
+║                                                           ║
 ╚═══════════════════════════════════════════════════════════╝
 """
         console.print(f"[bold cyan]{banner}[/bold cyan]")

@@ -1,5 +1,7 @@
 # KaliGPT Installation Guide
 
+**Created by Yashab Alam** | [Instagram](https://www.instagram.com/yashab.alam) | [LinkedIn](https://www.linkedin.com/in/yashab-alam) | [💎 Donate](../DONATE.md)
+
 Complete installation guide for KaliGPT with desktop integration.
 
 ## Installation Methods

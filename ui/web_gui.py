@@ -2,6 +2,11 @@
 """
 KaliGPT Web GUI - Modern Web Interface using Flask
 AI-Powered Penetration Testing Assistant
+
+Created by Yashab Alam
+Instagram: https://www.instagram.com/yashab.alam
+LinkedIn: https://www.linkedin.com/in/yashab-alam
+Donate: yashabalam9@gmail.com
 """
 
 from flask import Flask, render_template, request, jsonify, send_file
